@@ -20,20 +20,480 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
-            background: rgba(30, 41, 59, 0.7);
+            max-width: 650px;
+            background: rgba(30, 41, 59, 0.85);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            padding: 30px 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            padding: 25px 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
+
+        /* شاشة كلمة المرور */
+        .login-box h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #38bdf8;
+        }
+
+        .login-box p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 2px solid #334155;
+            background: #0f172a;
+            color: #fff;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #0284c7, #38bdf8);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .error-msg {
+            color: #f87171;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* شاشة المواد والواجهات */
+        .dashboard, .science-main, .study-section, .quiz-section {
+            display: none;
+        }
+
+        .dashboard h2, .science-main h2 {
+            font-size: 1.6rem;
+            color: #38bdf8;
+            margin-bottom: 5px;
+        }
+
+        .dashboard p, .science-main p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .card-btn {
+            background: #0f172a;
+            border: 1px solid #334155;
+            padding: 20px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-btn:hover {
+            border-color: #38bdf8;
+            transform: translateY(-3px);
+            background: #1e293b;
+        }
+
+        .card-btn .icon {
+            font-size: 2rem;
+        }
+
+        .card-btn span {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* تنسيقات محتوى الحفظ المفرغ من الصور */
+        .content-box {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: right;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .content-box h4 {
+            color: #38bdf8;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .content-box ul {
+            padding-right: 20px;
+            margin-bottom: 10px;
+        }
+
+        .equation-box {
+            background: #1e293b;
+            border-right: 4px solid #38bdf8;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            direction: ltr;
+            text-align: center;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #facc15;
+        }
+
+        .btn-back {
+            background: #334155;
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background: #475569;
+        }
+
+        /* تنسيق أسئلة الاختبارات */
+        .quiz-item {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .quiz-item p {
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: right;
+        }
+
+        .option-btn:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 1. شاشة الدخول بكلمة المرور -->
+        <div id="loginSection" class="login-box">
+            <h2>منصة الاختبارات 🎓</h2>
+            <p>أدخل كلمة المرور الخاصة بـ MID TEAM للدخول</p>
+            <div class="input-group">
+                <input type="password" id="passInput" placeholder="أدخل كلمة المرور">
+            </div>
+            <button class="btn-main" onclick="checkPassword()">دخول المنصة</button>
+            <p id="errorMsg" class="error-msg">كلمة المرور غير صحيحة!</p>
+        </div>
+
+        <!-- 2. شاشة اختيار المواد الأساسية -->
+        <div id="dashboardSection" class="dashboard">
+            <h2>الصف الثالث الإعدادي</h2>
+            <p>اختر المادة للبدء في الاختبارات والمراجعة</p>
+
+            <div class="grid-2">
+                <div class="card-btn" onclick="openSubject('اللغة العربية')">
+                    <div class="icon">📚</div>
+                    <span>اللغة العربية</span>
+                </div>
+                <div class="card-btn" onclick="openSubject('الرياضيات')">
+                    <div class="icon">📐</div>
+                    <span>الرياضيات</span>
+                </div>
+                <div class="card-btn" onclick="openScienceMain()">
+                    <div class="icon">🔬</div>
+                    <span>العلوم</span>
+                </div>
+                <div class="card-btn" onclick="openSubject('الدراسات الاجتماعية')">
+                    <div class="icon">🗺️</div>
+                    <span>الدراسات</span>
+                </div>
+                <div class="card-btn" onclick="openSubject('اللغة الإنجليزية')" style="grid-column: span 2;">
+                    <div class="icon">🔤</div>
+                    <span>اللغة الإنجليزية (English)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. الشاشة الرئيسية للعلوم (اختيار واجهة الحفظ أو الامتحان) -->
+        <div id="scienceMainSection" class="science-main">
+            <h2>مادة العلوم 🔬</h2>
+            <p>اختر الواجهة المراد الدخول إليها</p>
+            <div class="grid-2">
+                <div class="card-btn" onclick="openStudySection()">
+                    <div class="icon">📖</div>
+                    <span>واجهة الحفظ والمراجعة</span>
+                </div>
+                <div class="card-btn" onclick="openQuizSection()">
+                    <div class="icon">📝</div>
+                    <span>واجهة الاختبارات</span>
+                </div>
+            </div>
+            <button class="btn-back" onclick="backToDashboard()">الرجوع للمواد</button>
+        </div>
+
+        <!-- 4. واجهة الحفظ (تضم نصوص المذكرات الثلاث بالكامل) -->
+        <div id="studySection" class="study-section">
+            <h3 style="color:#38bdf8; margin-bottom: 15px;">📖 مذكرات الحفظ - الدرس الأول: أنواع التفاعلات الكيميائية</h3>
+            
+            <!-- الورقة الأولى -->
+            <div class="content-box">
+                <h4>1. المفاهيم الأساسية والأدلة</h4>
+                <p><b>التفاعل الكيميائي:</b> هو عملية كسر الروابط الموجودة في جزيئات المواد المتفاعلة (المتفاعلات) وتكون روابط جديدة في جزيئات المواد الناتجة (النواتج).</p>
+                <br>
+                <p><b>كيف يمكن الاستدلال على حدوث تفاعل كيميائي؟</b></p>
+                <ul>
+                    <li>تغير لون المادة</li>
+                    <li>تصاعد غاز</li>
+                    <li>تكون راسب</li>
+                    <li>انبعاث رائحة</li>
+                    <li>انبعاث ضوء وحرارة</li>
+                </ul>
+                <p style="color: #cbd5e1;">* التفاعل الكيميائي يؤدي إلى تكون نواتج تختلف في خواصها عن خواص المتفاعلات.</p>
+            </div>
+
+            <div class="content-box">
+                <h4>2. أنواع التفاعلات الكيميائية وتطبيقاتها</h4>
+                <p>تصنف تبعاً لكيفية إعادة ارتباط الذرات أو الأيونات ببعضها أثناء التفاعل:</p>
+                <ul>
+                    <li>اتحاد مباشر</li>
+                    <li>انحلال حراري</li>
+                    <li>إحلال بسيط</li>
+                    <li>إحلال مزدوج</li>
+                </ul>
+                
+                <h5 style="color:#facc15; margin: 10px 0;">تفاعلات الاتحاد المباشر:</h5>
+                <p>تفاعلات تتحد فيها مادتين أو أكثر لتكوين مركب جديد.</p>
+                
+                <p><b>عند تعريض كل مما يلي إلى لهب/بنزل:</b></p>
+                <p><b>1. المغنيسيوم (Mg) مصحوباً بالهواء:</b> يشتعل بسرعة ويحترق بلهب أبيض ساطع ويكون مسحوق مادة بيضاء اللون من أكسيد المغنيسيوم.</p>
+                <div class="equation-box">2Mg + O₂ --Δ--> 2MgO</div>
+                
+                <p><b>2. قطعة من الصوف الفولاذي (سلك تنظيف الألومنيوم) Fe:</b> تحترق مكونة شرراً وينتج أكسيد حديد مغناطيسي Fe₃O₄.</p>
+                <div class="equation-box">3Fe + 2O₂ --Δ--> Fe₃O₄</div>
+
+                <p><b>3. سلك من النحاس Cu:</b> لا يحترق بلهب مرئي ولكن تتكون على سطحه طبقة سوداء اللون من أكسيد النحاس CuO.</p>
+                <div class="equation-box">2Cu + O₂ --Δ--> 2CuO</div>
+
+                <p><b>تختلف درجة النشاط الكيميائي للفلزات:</b> Mg أنشط من Fe، وFe أنشط من Cu.</p>
+                <p><b>تعلات مهمة:</b> عند حرق شريط من المغنيسيوم يراعي اتخاذ نظارة واقية وتجنب إطالة النظر للمتوهج؛ لأن احتراق المغنيسيوم ينتج ضوءاً عالي الشدة مصحوباً بأشعة فوق بنفسجية قد تؤذي شبكية العين.</p>
+            </div>
+
+            <!-- الورقة الثانية -->
+            <div class="content-box">
+                <h4>3. تفاعلات الانحلال الحراري</h4>
+                <p><b>تفاعلات الانحلال الحراري:</b> هي عكس تفاعلات الاتحاد المباشر، وتعرف بـ [تفكك مركبات فيها بعض المركبات إلى مكوناتها البسيطة أو أبسط منها باستخدام طاقة حرارية أو ضوئية].</p>
+                <div class="equation-box">AB --طاقة--> A + B</div>
+                <p>تختلف نواتج تفاعلات الانحلال الحراري تبعاً لنوع المركب المستخدم في التفاعل.</p>
+
+                <h5 style="color:#facc15; margin: 10px 0;">مقارنة بين انحلال أكسيد الفلز وكربونات الفلز:</h5>
+                <p><b>أ) الانحلال الحراري لأكسيد الزئبق [HgO]:</b> ينحل بالحرارة إلى زئبق (Hg) فضي اللون ويتصاعد غاز الأكسجين (O₂) الذي يزيد توهج عود ثقاب مشتعل.</p>
+                <div class="equation-box">2HgO (أحمر) --Δ--> 2Hg (فضي) + O₂ ↑</div>
+
+                <p><b>ب) الانحلال الحراري لكربونات الكالسيوم [CaCO₃]:</b> تنحل بالحرارة إلى أكسيد الكالسيوم (CaO) ويتصاعد غاز ثاني أكسيد الكربون (CO₂) عديم اللون الذي يعكر ماء الجير الرائق عند إمراره عليه لفترة قصيرة.</p>
+                <div class="equation-box">CaCO₃ (صلب) --Δ--> CaO (صلب) + CO₂ ↑</div>
+
+                <p><b>ما المقصود بكل من:</b> الاتحاد المباشر - الانحلال الحراري؟</p>
+                <p><b>سؤال تطبيق:</b> ماذا يحدث كيميائياً عند تسخين كل من: شريط من المغنيسيوم في الهواء، وأكسيد الزئبق الأحمر؟</p>
+            </div>
+
+            <!-- الورقة الثالثة -->
+            <div class="content-box">
+                <h4>4. تفاعلات الانحلال الحراري لبعض المركبات</h4>
+                <p><b>1. هيدروكسيدات الفلزات:</b> تنحل معظم هيدروكسيدات الفلزات بالحرارة إلى أكسيد الفلز وبخار الماء.</p>
+                <p>مثال: انحلال هيدروكسيد النحاس الأزرق [Cu(OH)₂] إلى أكسيد النحاس الأسود وبخار ماء.</p>
+                <div class="equation-box">Cu(OH)₂ (أزرق) --Δ--> CuO (أسود) + H₂O ↑</div>
+
+                <p><b>2. كبريتات الفلزات:</b> تنحل معظم كبريتات الفلزات بالحرارة إلى أكسيد الفلز وثالث أكسيد الكبريت.</p>
+                <p>مثال: انحلال كبريتات النحاس الزرقاء [CuSO₄] بالحرارة إلى أكسيد النحاس الأسود وثالث أكسيد الكبريت.</p>
+                <div class="equation-box">CuSO₄ (أزرق) --Δ--> CuO (أسود) + SO₃ ↑</div>
+
+                <p><b>3. نترات الفلزات:</b> تنحل نترات الفلزات بالحرارة إلى نيتريت الفلز وغاز الأكسجين.</p>
+                <p>مثال: انحلال نترات الصوديوم البيضاء [NaNO₃] إلى نيتريت الصوديوم أبيض مصفر وتصاعد الأكسجين.</p>
+                <div class="equation-box">2NaNO₃ (أبيض) --Δ--> 2NaNO₂ (أبيض مصفر) + O₂ ↑</div>
+
+                <h5 style="color:#facc15; margin: 10px 0;">ملخص ألوان المركبات المهمة للحفظ:</h5>
+                <ul>
+                    <li>أكسيد الزئبق (HgO): أحمر 🔴</li>
+                    <li>الزئبق (Hg): فضي ⚪</li>
+                    <li>هيدروكسيد النحاس Cu(OH)₂: أزرق 🔵</li>
+                    <li>كبريتات النحاس CuSO₄: أزرق 🔵</li>
+                    <li>أكسيد النحاس CuO: أسود ⬛</li>
+                    <li>نترات الصوديوم NaNO₃: أبيض ⚪</li>
+                    <li>نيتريت الصوديوم NaNO₂: أبيض مصفر 🟡</li>
+                </ul>
+            </div>
+
+            <button class="btn-back" onclick="backToScienceMain()">الرجوع لواجهة العلوم</button>
+        </div>
+
+        <!-- 5. واجهة الاختبارات -->
+        <div id="quizSection" class="quiz-section">
+            <h3 style="color:#38bdf8; margin-bottom: 15px;">📝 اختبار تفاعلي في مادة العلوم</h3>
+            
+            <div class="quiz-item">
+                <p>1. عند تسخين أكسيد الزئبق الأحمر يتكون راسب فضي وتصاعد غاز:</p>
+
+                <button class="option-btn" onclick="checkAnswer(this, true)">الأكسجين (O₂)</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">النيتروجين (N₂)</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">ثاني أكسيد الكربون (CO₂)</button>
+            </div>
+
+            <div class="quiz-item">
+                <p>2. تنحل كربونات الكالسيوم بالحرارة إلى أكسيد الكالسيوم وغاز:</p>
+                <button class="option-btn" onclick="checkAnswer(this, false)">الهيدروجين</button>
+                <button class="option-btn" onclick="checkAnswer(this, true)">ثاني أكسيد الكربون (CO₂)</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">ثالث أكسيد الكبريت</button>
+            </div>
+
+            <div class="quiz-item">
+                <p>3. لون نيتريت الصوديوم الناتج من انحلال نترات الصوديوم بالحرارة هو:</p>
+                <button class="option-btn" onclick="checkAnswer(this, false)">أسود</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">أزرق</button>
+                <button class="option-btn" onclick="checkAnswer(this, true)">أبيض مصفر</button>
+            </div>
+
+            <div id="quizScore" style="margin-top: 10px; font-weight: bold; color: #38bdf8;"></div>
+            
+            <button class="btn-back" onclick="backToScienceMain()">الرجوع لواجهة العلوم</button>
+        </div>
+
+        <!-- 6. شاشة فارغة لباقي المواد -->
+        <div id="subjectSection" class="study-section">
+            <h3 id="subjectTitle">اسم المادة</h3>
+            <p style="color: #94a3b8; margin: 15px 0;">سيتم إضافة المذكرات والامتحانات الخاصة بهذه المادة قريباً.</p>
+            <button class="btn-back" onclick="backToDashboard()">الرجوع للمواد</button>
+        </div>
+
+    </div>
+
+    <script>
+        // التحقق من كلمة المرور
+        function checkPassword() {
+            const input = document.getElementById('passInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (input === "MID TEAM") {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        // التنقل بين الصفحات والواجهات
+        function openScienceMain() {
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('scienceMainSection').style.display = 'block';
+        }
+
+        function openStudySection() {
+            document.getElementById('scienceMainSection').style.display = 'none';
+            document.getElementById('studySection').style.display = 'block';
+        }
+
+        function openQuizSection() {
+            document.getElementById('scienceMainSection').style.display = 'none';
+            document.getElementById('quizSection').style.display = 'block';
+        }
+
+        function openSubject(name) {
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('subjectSection').style.display = 'block';
+            document.getElementById('subjectTitle').innerText = name;
+        }
+
+        function backToDashboard() {
+            document.getElementById('scienceMainSection').style.display = 'none';
+            document.getElementById('subjectSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+        }
+
+        function backToScienceMain() {
+            document.getElementById('studySection').style.display = 'none';
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('scienceMainSection').style.display = 'block';
+        }
+
+        // تصحيح أسئلة الاختبار
+        function checkAnswer(btn, isCorrect) {
+            const parent = btn.parentElement;
+            const buttons = parent.querySelectorAll('.option-btn');
+            
+            buttons.forEach(b => {
+                b.style.background = '#1e293b';
+                b.disabled = true;
+            });
+
+            if (isCorrect) {
+                btn.style.background = '#22c55e';
+            } else {
+                btn.style.background = '#ef4444';
+            }
+        }
+    </script>
+</body>
+</html>
 
         /* شاشة كلمة المرور */
         .login-box h2 {
