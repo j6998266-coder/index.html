@@ -1,366 +1,251 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>امتحان الشامل - أنواع التفاعلات الكيميائية</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>منصة الثالث الإعدادي - MID TEAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
         body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            color: #f8fafc;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #fff;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-        .glass-card {
+
+        .container {
+            width: 100%;
+            max-width: 500px;
             background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            text-align: center;
         }
-        .option-btn {
-            transition: all 0.2s ease;
+
+        /* شاشة كلمة المرور */
+        .login-box h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #38bdf8;
         }
-        .option-btn:hover:not(:disabled) {
+
+        .login-box p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 2px solid #334155;
+            background: #0f172a;
+            color: #fff;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input[type="password"]:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #0284c7, #38bdf8);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover {
+            opacity: 0.9;
             transform: translateY(-2px);
-            background-color: rgba(59, 130, 246, 0.2);
-            border-color: #3b82f6;
+        }
+
+        .error-msg {
+            color: #f87171;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* شاشة المواد */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard h2 {
+            font-size: 1.6rem;
+            color: #38bdf8;
+            margin-bottom: 5px;
+        }
+
+        .dashboard p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .subject-card {
+            background: #0f172a;
+            border: 1px solid #334155;
+            padding: 20px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subject-card:hover {
+            border-color: #38bdf8;
+            transform: translateY(-5px);
+            background: #1e293b;
+        }
+
+        .subject-card .icon {
+            font-size: 2rem;
+        }
+
+        .subject-card span {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* صفحة تفاصيل المادة */
+        .subject-page {
+            display: none;
+        }
+
+        .subject-page h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #38bdf8;
+        }
+
+        .btn-back {
+            background: #334155;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: 600;
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen justify-between p-4 sm:p-6 md:p-8">
+<body>
 
-    <header class="max-w-4xl mx-auto w-full mb-6 text-center">
-        <div class="glass-card p-6 rounded-2xl shadow-2xl">
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 mb-2">
-                🧪 الاختبار الشامل والنهائي - الكيمياء
-            </h1>
-            <p class="text-slate-300 text-sm sm:text-base">الصف الثالث الإعدادي | الدرس الأول: أنواع التفاعلات الكيميائية</p>
-        </div>
-    </header>
-
-    <main class="max-w-3xl mx-auto w-full flex-1 flex flex-col justify-center">
-        <!-- Start Screen -->
-        <div id="start-screen" class="glass-card p-6 sm:p-10 rounded-2xl text-center space-y-6">
-            <div class="w-20 h-20 bg-blue-600/20 text-blue-400 rounded-full flex items-center justify-center mx-auto text-4xl shadow-inner">
-                📝
+    <div class="container">
+        <!-- 1. شاشة الدخول بكلمة المرور -->
+        <div id="loginSection" class="login-box">
+            <h2>منصة الاختبارات 🎓</h2>
+            <p>أدخل كلمة المرور الخاصة بـ MID TEAM للدخول</p>
+            <div class="input-group">
+                <input type="password" id="passInput" placeholder="أدخل كلمة المرور">
             </div>
-            <h2 class="text-2xl font-bold">جاهز لاختبار معلوماتك؟</h2>
-            <p class="text-slate-300 max-w-md mx-auto">
-                يتكون الامتحان من 10 أسئلة تغطي كافة تفاصيل الدرس (المعادلات، الملاحظات العملية، التعاريف، والتعليلات).
-            </p>
-            <button onclick="startQuiz()" class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg transition duration-200 transform hover:scale-105 active:scale-95">
-                ابدأ الامتحان الآن 🚀
-            </button>
+            <button class="btn-main" onclick="checkPassword()">دخول المنصة</button>
+            <p id="errorMsg" class="error-msg">كلمة المرور غير صحيحة!</p>
         </div>
 
-        <!-- Quiz Screen -->
-        <div id="quiz-screen" class="hidden glass-card p-6 sm:p-8 rounded-2xl space-y-6 shadow-2xl">
-            <!-- Progress Bar -->
-            <div class="space-y-2">
-                <div class="flex justify-between text-xs sm:text-sm font-semibold text-slate-400">
-                    <span id="question-count">السؤال 1 من 10</span>
-                    <span id="timer" class="text-amber-400 font-bold">⏱️ 00:00</span>
-                </div>
-                <div class="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-full w-0 transition-all duration-300"></div>
-                </div>
-            </div>
+        <!-- 2. شاشة اختيار المواد الأساسية -->
+        <div id="dashboardSection" class="dashboard">
+            <h2>الصف الثالث الإعدادي</h2>
+            <p>اختر المادة للبدء في الاختبارات والمراجعة</p>
 
-            <!-- Question Box -->
-            <div class="space-y-4">
-                <h3 id="question-text" class="text-lg sm:text-xl font-bold leading-relaxed text-white">
-                    جاري تحميل السؤال...
-                </h3>
-                
-                <div id="options-container" class="grid grid-cols-1 gap-3 pt-2">
-                    <!-- Dynamic Options -->
+            <div class="subjects-grid">
+                <div class="subject-card" onclick="openSubject('اللغة العربية', '📚')">
+                    <div class="icon">📚</div>
+                    <span>اللغة العربية</span>
                 </div>
-            </div>
-
-            <!-- Feedback Message -->
-            <div id="feedback" class="hidden p-4 rounded-xl text-center font-bold text-sm sm:text-base"></div>
-
-            <!-- Next Button -->
-            <div class="flex justify-end pt-4 border-t border-slate-700/50">
-                <button id="next-btn" onclick="nextQuestion()" disabled class="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-slate-300 font-bold rounded-xl transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-                    <span>السؤال التالي</span>
-                    <span>←</span>
-                </button>
+                <div class="subject-card" onclick="openSubject('الرياضيات', '📐')">
+                    <div class="icon">📐</div>
+                    <span>الرياضيات</span>
+                </div>
+                <div class="subject-card" onclick="openSubject('العلوم', '🔬')">
+                    <div class="icon">🔬</div>
+                    <span>العلوم</span>
+                </div>
+                <div class="subject-card" onclick="openSubject('الدراسات الاجتماعية', '🗺️')">
+                    <div class="icon">🗺️</div>
+                    <span>الدراسات</span>
+                </div>
+                <div class="subject-card" onclick="openSubject('اللغة الإنجليزية', '🔤')" style="grid-column: span 2;">
+                    <div class="icon">🔤</div>
+                    <span>اللغة الإنجليزية (English)</span>
+                </div>
             </div>
         </div>
 
-        <!-- Results Screen -->
-        <div id="results-screen" class="hidden glass-card p-8 rounded-2xl text-center space-y-6">
-            <div id="result-icon" class="text-6xl">🏆</div>
-            <h2 class="text-3xl font-extrabold" id="result-title">نتيجة الامتحان</h2>
-            
-            <div class="p-6 bg-slate-800/80 rounded-xl max-w-sm mx-auto space-y-2">
-                <p class="text-slate-400 text-sm">درجتك النهائية</p>
-                <div class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500" id="final-score">
-                    0/10
-                </div>
-                <p id="result-text" class="text-slate-300 pt-2 font-medium"></p>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-                <button onclick="restartQuiz()" class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition shadow-lg">
-                    إعادة الامتحان 🔄
-                </button>
-            </div>
+        <!-- 3. شاشة المادة المختارة -->
+        <div id="subjectSection" class="subject-page">
+            <h3 id="subjectTitle">اسم المادة</h3>
+            <p style="color: #94a3b8;">مرحباً بك في قسم المادة. يمكنك إضافة الأسئلة أو الامتحانات هنا.</p>
+            <button class="btn-back" onclick="backToDashboard()">الرجوع للمواد</button>
         </div>
-    </main>
-
-    <footer class="mt-8 text-center text-xs text-slate-500">
-        تم إعداد هذا الامتحان المطور وفق منهج العلوم للصف الثالث الإعدادي
-    </footer>
+    </div>
 
     <script>
-        const questions = [
-            {
-                question: "ما المقصود بعملية كسر الروابط الموجودة في جزيئات المواد المتفاعلة وتكوين روابط جديدة في جزيئات المواد الناتجة؟",
-                options: [
-                    "الانحلال الحراري",
-                    "التفاعل الكيميائي",
-                    "الإحلال البسيط",
-                    "الاتحاد المباشر فقط"
-                ],
-                correct: 1,
-                explanation: "هذا هو التعريف الدقيق والأساسي للتفاعل الكيميائي المذكور في بداية الدرس."
-            },
-            {
-                question: "أي مما يلي يُعد دليلاً ظاهرياً يستدل به على حدوث تفاعل كيميائي وفقاً لما ورد بالدرس؟",
-                options: [
-                    "تغير اللون، تصاعد غاز، وتكون راسب",
-                    "انبعاث رائحة، انبعاث ضوء وحرارة",
-                    "ثبات حجم وكتلة المواد دون تغير",
-                    "الإجابتان (أ) و (ب) معاً"
-                ],
-                correct: 3,
-                explanation: "يستدل على التفاعل بعدة دلائل منها: تغير اللون، تصاعد غاز، تكون راسب، انبعاث رائحة، وانبعاث ضوء وحرارة."
-            },
-            {
-                question: "تتميز تفاعلات الاتحاد المباشر بكونها تفاعلات يحدث فيها:",
-                options: [
-                    "تفكك مركب إلى عناصره الأولية",
-                    "اتحاد مادتين أو أكثر لتكوين مركب جديد واحد",
-                    "إحلال عنصر أكثر نشاطاً محل عنصر آخر",
-                    "تبادل الأيونات بين مركبين مختلفين"
-                ],
-                correct: 1,
-                explanation: "الاتحاد المباشر هو اندماج/اتحاد مادتين أو أكثر لإنتاج مركب جديد واحد."
-            },
-            {
-                question: "عند احتراق شريط المغنيسيوم في وجود أكسجين الهواء الجوي، أي الخيارات التالية تعبر عن ناتج التفاعل والمعادلة الموزونة؟",
-                options: [
-                    "مادة بيضاء من أكسيد المغنيسيوم | 2Mg + O₂ → 2MgO",
-                    "مادة سوداء من أكسيد المغنيسيوم | Mg + O₂ → MgO₂",
-                    "شرر فقط مع أكسيد حديد | 3Fe + 2O₂ → Fe₃O₄",
-                    "غاز ثاني أكسيد الكربون | C + O₂ → CO₂"
-                ],
-                correct: 0,
-                explanation: "احتراق المغنيسيوم يشتعل بلهب أبيض ساطع ويكون مادة بيضاء من أكسيد المغنيسيوم (2MgO)."
-            },
-            {
-                question: "ما السبب العلمي لوجوب تجنب النظر المباشر المتوهج عند حرق شريط المغنيسيوم وارتداء نظارة واقية؟",
-                options: [
-                    "لأن التفاعل يطلق غازات سامة تؤذي الرئتين",
-                    "لأن احتراقه ينتج عنه ضوء شديد مصحوباً بأشعة فوق بنفسجية تؤذي شبكية العين",
-                    "لأنه يسبب انفجاراً شديد الحرارة",
-                    "لأن النحاس يتحول إلى مادة سوداء تتطاير في الهواء"
-                ],
-                correct: 1,
-                explanation: "الضوء المتوهج الناتج يحتوي على أشعة فوق بنفسجية (UV) ضارة جداً بشبكية العين."
-            },
-            {
-                question: "أي الخيارات التالية تعبر عن المعادلة الكيميائية الموزونة لاحتراق قطعة من الصوف الفولاذي (سلك تنظيف الألومنيوم/الحديد)؟",
-                options: [
-                    "Fe + O₂ → FeO₂",
-                    "2Fe + 3O₂ → 2FeO₃",
-                    "3Fe + 2O₂ → Fe₃O₄",
-                    "2Cu + O₂ → 2CuO"
-                ],
-                correct: 2,
-                explanation: "يحترق الحديد المكون للصوف الفولاذي مكوناً شرراً وأكسيد حديد مغناطيسي ومعادلته الموزونة هي 3Fe + 2O₂ → Fe₃O₄."
-            },
-            {
-                question: "ما الظاهرة والمادة الناتجة عند تسخين سلك من النحاس في وجود أكسجين الهواء الجوي؟",
-                options: [
-                    "يحترق بلهب أبيض وتتكون مادة بيضاء",
-                    "يحترق بلهب ساطع وتتكون طبقة حمراء",
-                    "لا يحترق بلهب مرئي ولكن تتكون طبقة سوداء من أكسيد النحاس (CuO)",
-                    "يتفكك النحاس ويتصاعد غاز الأكسجين"
-                ],
-                correct: 2,
-                explanation: "النحاس عند تسخينه لا يحترق بلهب مرئي ولكن تتكون على سطحه طبقة سوداء من أكسيد النحاس (CuO)."
-            },
-            {
-                question: "وفقاً للدرس، أي الترتيبات التالية يعبر عن الترتيب التنازلي الصحيح للنشاط الكيميائي للفلزات المذكورة؟",
-                options: [
-                    "المغنيسيوم (Mg) > الحديد (Fe) > النحاس (Cu)",
-                    "النحاس (Cu) > الحديد (Fe) > المغنيسيوم (Mg)",
-                    "الحديد (Fe) > المغنيسيوم (Mg) > النحاس (Cu)",
-                    "جميع الفلزات المذكورة متساوية في النشاط"
-                ],
-                correct: 0,
-                explanation: "الترتيب الوارد بالورقة هو: Mg أنشط من Fe، و Fe أنشط من Cu."
-            },
-            {
-                question: "أي المعادلات الآتية تعبر بصورة موزونة عن التفاعل الحادث عند تسخين النحاس في وجود أكسجين الهواء؟",
-                options: [
-                    "Cu + O₂ → CuO₂",
-                    "2Cu + O₂ → 2CuO",
-                    "Cu + O → CuO",
-                    "2Cu + 2O₂ → 2CuO₂"
-                ],
-                correct: 1,
-                explanation: "المعادلة الموزونة الصحيحة هي 2Cu + O₂ → 2CuO."
-            },
-            {
-                question: "تختلف خواص المواد الناتجة من التفاعل الكيميائي عن خواص المواد المتفاعلة بسبب:",
-                options: [
-                    "تغير كتلة الذرات أثناء التفاعل",
-                    "كسر الروابط القديمة وتكوين روابط جديدة بين ذرات جزيئات النواتج",
-                    "تغير العدد الذري للعناصر المتفاعلة",
-                    "عدم موازنة المعادلة الكيميائية"
-                ],
-                correct: 1,
-                explanation: "اختلاف الخواص يعود إلى كسر الروابط القديمة بين المتفاعلات وتكوين روابط جديدة تماماً بين جزيئات النواتج."
-            }
-        ];
+        // التحقق من كلمة المرور
+        function checkPassword() {
+            const input = document.getElementById('passInput').value;
+            const errorMsg = document.getElementById('errorMsg');
 
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedOption = null;
-        let timerInterval = null;
-        let secondsElapsed = 0;
-
-        function startQuiz() {
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-            currentQuestionIndex = 0;
-            score = 0;
-            secondsElapsed = 0;
-            
-            // Start Timer
-            timerInterval = setInterval(() => {
-                secondsElapsed++;
-                const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
-                const secs = String(secondsElapsed % 60).padStart(2, '0');
-                document.getElementById('timer').textContent = `⏱️ ${mins}:${secs}`;
-            }, 1000);
-
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const q = questions[currentQuestionIndex];
-            selectedOption = null;
-
-            // UI updates
-            document.getElementById('question-count').textContent = `السؤال ${currentQuestionIndex + 1} من ${questions.length}`;
-            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex) / questions.length) * 100}%`;
-            document.getElementById('question-text').textContent = q.question;
-            
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-
-            const feedback = document.getElementById('feedback');
-            feedback.className = "hidden p-4 rounded-xl text-center font-bold text-sm sm:text-base";
-
-            document.getElementById('next-btn').disabled = true;
-
-            q.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = "option-btn w-full p-4 rounded-xl text-right font-medium bg-slate-800/80 border border-slate-700 text-slate-200 flex items-center justify-between";
-                btn.innerHTML = `
-                    <span>${opt}</span>
-                    <span class="w-6 h-6 border-2 border-slate-500 rounded-full flex items-center justify-center text-xs font-bold text-transparent indicator">✓</span>
-                `;
-                btn.onclick = () => selectOption(idx, btn);
-                optionsContainer.appendChild(btn);
-            });
-        }
-
-        function selectOption(index, btnElement) {
-            if (selectedOption !== null) return; // Prevent changing answer
-            
-            selectedOption = index;
-            const q = questions[currentQuestionIndex];
-            const options = document.querySelectorAll('.option-btn');
-            const feedback = document.getElementById('feedback');
-
-            options.forEach(btn => btn.disabled = true);
-
-            if (index === q.correct) {
-                score++;
-                btnElement.classList.add('bg-emerald-600/30', 'border-emerald-500', 'text-emerald-200');
-                btnElement.querySelector('.indicator').classList.remove('text-transparent');
-                btnElement.querySelector('.indicator').classList.add('bg-emerald-500', 'text-white', 'border-emerald-500');
-                
-                feedback.textContent = `إجابة صحيحة! 🎉 ${q.explanation}`;
-                feedback.classList.add('bg-emerald-500/20', 'text-emerald-300', 'border', 'border-emerald-500/40');
+            if (input === "MID TEAM") {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
             } else {
-                btnElement.classList.add('bg-rose-600/30', 'border-rose-500', 'text-rose-200');
-                
-                // Highlight Correct Option
-                const correctBtn = options[q.correct];
-                correctBtn.classList.add('bg-emerald-600/30', 'border-emerald-500', 'text-emerald-200');
-                correctBtn.querySelector('.indicator').classList.remove('text-transparent');
-                correctBtn.querySelector('.indicator').classList.add('bg-emerald-500', 'text-white', 'border-emerald-500');
-
-                feedback.textContent = `إجابة خاطئة ❌ الإجابة الصحيحة هي: (${q.options[q.correct]}). ${q.explanation}`;
-                feedback.classList.add('bg-rose-500/20', 'text-rose-300', 'border', 'border-rose-500/40');
-            }
-
-            feedback.classList.remove('hidden');
-            document.getElementById('next-btn').disabled = false;
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                loadQuestion();
-            } else {
-                showResults();
+                errorMsg.style.display = 'block';
             }
         }
 
-        function showResults() {
-            clearInterval(timerInterval);
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('results-screen').classList.remove('hidden');
-
-            document.getElementById('final-score').textContent = `${score} / ${questions.length}`;
-
-            const percentage = (score / questions.length) * 100;
-            const title = document.getElementById('result-title');
-            const icon = document.getElementById('result-icon');
-            const text = document.getElementById('result-text');
-
-            if (percentage >= 90) {
-                icon.textContent = "🏆";
-                title.textContent = "ممتاز جداً! أداء أسطوري";
-                text.textContent = "ما شاء الله! أنت هضمت الدرس بالكامل وحفظت كل جزئية فيه تماماً.";
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            } else if (percentage >= 70) {
-                icon.textContent = "🌟";
-                title.textContent = "أحسنت! أداء جيد جداً";
-                text.textContent = "لديك فهم قوي للدرس، راجع الأسئلة التي أخطأت بها لتصل للدرجة النهائية.";
-            } else {
-                icon.textContent = "📚";
-                title.textContent = "يحتاج لإعادة مراجعة";
-                text.textContent = "يبدو أنك بحاجة لمراجعة الدرس والمعادلات الكيميائية مرة أخرى بتركيز أكبر.";
-            }
+        // فتح صفحة المادة
+        function openSubject(name, icon) {
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('subjectSection').style.display = 'block';
+            document.getElementById('subjectTitle').innerText = icon + " " + name;
         }
 
-        function restartQuiz() {
-            document.getElementById('results-screen').classList.add('hidden');
-            startQuiz();
+        // العودة لصفحة المواد
+        function backToDashboard() {
+            document.getElementById('subjectSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
         }
     </script>
 </body>
 </html>
-```
