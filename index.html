@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الثالث الإعدادي - MID TEAM</title>
+    <title>منصة الشهادة الإعدادية - KUPI</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -25,9 +25,9 @@
 
         .container {
             width: 100%;
-            max-width: 650px;
-            background: rgba(30, 41, 59, 0.85);
-            backdrop-filter: blur(10px);
+            max-width: 700px;
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 25px 20px;
@@ -35,7 +35,7 @@
             text-align: center;
         }
 
-        /* شاشة كلمة المرور */
+        /* شاشة الدخول */
         .login-box h2 {
             font-size: 1.8rem;
             margin-bottom: 10px;
@@ -48,11 +48,7 @@
             margin-bottom: 25px;
         }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        input[type="password"], input[type="text"] {
+        input[type="password"] {
             width: 100%;
             padding: 14px;
             border-radius: 12px;
@@ -62,7 +58,7 @@
             font-size: 1.1rem;
             text-align: center;
             outline: none;
-            transition: 0.3s;
+            margin-bottom: 20px;
         }
 
         input:focus {
@@ -95,18 +91,22 @@
             display: none;
         }
 
-        /* شاشة المواد والواجهات */
-        .dashboard, .science-main, .study-section, .quiz-section {
+        /* الشاشات الرئيسية */
+        .page {
             display: none;
         }
 
-        .dashboard h2, .science-main h2 {
+        .active {
+            display: block;
+        }
+
+        h2.title {
             font-size: 1.6rem;
             color: #38bdf8;
             margin-bottom: 5px;
         }
 
-        .dashboard p, .science-main p {
+        p.subtitle {
             color: #94a3b8;
             font-size: 0.9rem;
             margin-bottom: 20px;
@@ -116,6 +116,12 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
         }
 
         .card-btn {
@@ -146,13 +152,13 @@
             font-weight: 600;
         }
 
-        /* تنسيقات محتوى الحفظ المفرغ من الصور */
+        /* تنسيقات المحتوى (حفظ / ملخصات) */
         .content-box {
             background: #0f172a;
             border: 1px solid #334155;
             border-radius: 16px;
             padding: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: right;
             line-height: 1.8;
             font-size: 0.95rem;
@@ -162,25 +168,27 @@
             color: #38bdf8;
             border-bottom: 1px solid #334155;
             padding-bottom: 8px;
-            margin-bottom: 12px;
-            font-size: 1.1rem;
+            margin-bottom: 10px;
         }
 
         .content-box ul {
             padding-right: 20px;
-            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #facc15;
+            font-weight: bold;
         }
 
         .equation-box {
             background: #1e293b;
             border-right: 4px solid #38bdf8;
-            padding: 10px 15px;
+            padding: 8px 12px;
             margin: 10px 0;
             border-radius: 8px;
             direction: ltr;
             text-align: center;
             font-family: monospace;
-            font-size: 1.1rem;
             color: #facc15;
         }
 
@@ -193,14 +201,13 @@
             cursor: pointer;
             margin-top: 15px;
             font-weight: 600;
-            transition: 0.3s;
         }
 
         .btn-back:hover {
             background: #475569;
         }
 
-        /* تنسيق أسئلة الاختبارات */
+        /* أسئلة الاختبارات */
         .quiz-item {
             background: #0f172a;
             padding: 15px;
@@ -235,261 +242,219 @@
 <body>
 
     <div class="container">
-        <!-- 1. شاشة الدخول بكلمة المرور -->
-        <div id="loginSection" class="login-box">
-            <h2>منصة الاختبارات 🎓</h2>
-            <p>أدخل كلمة المرور الخاصة بـ MID TEAM للدخول</p>
-            <div class="input-group">
+        <!-- 1. شاشة تسجيل الدخول -->
+        <div id="loginPage" class="page active">
+            <div class="login-box">
+                <h2>منصة الشهادة الإعدادية 🎓</h2>
+                <p>أدخل كلمة المرور الخاصة للوصول للمحتوى</p>
                 <input type="password" id="passInput" placeholder="أدخل كلمة المرور">
+                <button class="btn-main" onclick="checkPassword()">دخول المنصة</button>
+                <p id="errorMsg" class="error-msg">كلمة المرور غير صحيحة!</p>
             </div>
-            <button class="btn-main" onclick="checkPassword()">دخول المنصة</button>
-            <p id="errorMsg" class="error-msg">كلمة المرور غير صحيحة!</p>
         </div>
 
-        <!-- 2. شاشة اختيار المواد الأساسية -->
-        <div id="dashboardSection" class="dashboard">
-            <h2>الصف الثالث الإعدادي</h2>
-            <p>اختر المادة للبدء في الاختبارات والمراجعة</p>
+        <!-- 2. الشاشة الرئيسية (اختيار المادة) -->
+        <div id="mainDashboard" class="page">
+            <h2 class="title">الصف الثالث الإعدادي</h2>
+            <p class="subtitle">اختر المادة للبدء في المذاكرة والمراجعة</p>
 
             <div class="grid-2">
-                <div class="card-btn" onclick="openSubject('اللغة العربية')">
+                <div class="card-btn" onclick="openSubjectMenu('arabic')">
                     <div class="icon">📚</div>
                     <span>اللغة العربية</span>
                 </div>
-                <div class="card-btn" onclick="openSubject('الرياضيات')">
+                <div class="card-btn" onclick="openSubjectMenu('math')">
                     <div class="icon">📐</div>
                     <span>الرياضيات</span>
                 </div>
-                <div class="card-btn" onclick="openScienceMain()">
+                <div class="card-btn" onclick="openSubjectMenu('science')">
                     <div class="icon">🔬</div>
                     <span>العلوم</span>
                 </div>
-                <div class="card-btn" onclick="openSubject('الدراسات الاجتماعية')">
+                <div class="card-btn" onclick="openSubjectMenu('social')">
                     <div class="icon">🗺️</div>
-                    <span>الدراسات</span>
-                </div>
-                <div class="card-btn" onclick="openSubject('اللغة الإنجليزية')" style="grid-column: span 2;">
-                    <div class="icon">🔤</div>
-                    <span>اللغة الإنجليزية (English)</span>
+                    <span>الدراسات الاجتماعية</span>
                 </div>
             </div>
         </div>
 
-        <!-- 3. الشاشة الرئيسية للعلوم (اختيار واجهة الحفظ أو الامتحان) -->
-        <div id="scienceMainSection" class="science-main">
-            <h2>مادة العلوم 🔬</h2>
-            <p>اختر الواجهة المراد الدخول إليها</p>
-            <div class="grid-2">
-                <div class="card-btn" onclick="openStudySection()">
-                    <div class="icon">📖</div>
-                    <span>واجهة الحفظ والمراجعة</span>
-                </div>
-                <div class="card-btn" onclick="openQuizSection()">
+        <!-- 3. القائمة الفرعية للمادة (ملخصات - حفظ - امتحانات) -->
+        <div id="subCategoryPage" class="page">
+            <h2 class="title" id="currentSubjectTitle">اسم المادة</h2>
+            <p class="subtitle">اختر القسم الذي تريد الدخول إليه</p>
+
+            <div class="grid-3">
+                <div class="card-btn" onclick="showSection('summary')">
                     <div class="icon">📝</div>
-                    <span>واجهة الاختبارات</span>
+                    <span>الملخصات</span>
+                </div>
+                <div class="card-btn" onclick="showSection('memorize')">
+                    <div class="icon">📖</div>
+                    <span>مذكرات الحفظ</span>
+                </div>
+                <div class="card-btn" onclick="showSection('quiz')">
+                    <div class="icon">✍️</div>
+                    <span>الامتحانات</span>
                 </div>
             </div>
-            <button class="btn-back" onclick="backToDashboard()">الرجوع للمواد</button>
+            <button class="btn-back" onclick="navTo('mainDashboard')">الرجوع للمواد</button>
         </div>
 
-        <!-- 4. واجهة الحفظ (تضم نصوص المذكرات الثلاث بالكامل) -->
-        <div id="studySection" class="study-section">
-            <h3 style="color:#38bdf8; margin-bottom: 15px;">📖 مذكرات الحفظ - الدرس الأول: أنواع التفاعلات الكيميائية</h3>
-            
-            <!-- الورقة الأولى -->
-            <div class="content-box">
-                <h4>1. المفاهيم الأساسية والأدلة</h4>
-                <p><b>التفاعل الكيميائي:</b> هو عملية كسر الروابط الموجودة في جزيئات المواد المتفاعلة (المتفاعلات) وتكون روابط جديدة في جزيئات المواد الناتجة (النواتج).</p>
-                <br>
-                <p><b>كيف يمكن الاستدلال على حدوث تفاعل كيميائي؟</b></p>
-                <ul>
-                    <li>تغير لون المادة</li>
-                    <li>تصاعد غاز</li>
-                    <li>تكون راسب</li>
-                    <li>انبعاث رائحة</li>
-                    <li>انبعاث ضوء وحرارة</li>
-                </ul>
-                <p style="color: #cbd5e1;">* التفاعل الكيميائي يؤدي إلى تكون نواتج تختلف في خواصها عن خواص المتفاعلات.</p>
-            </div>
-
-            <div class="content-box">
-                <h4>2. أنواع التفاعلات الكيميائية وتطبيقاتها</h4>
-                <p>تصنف تبعاً لكيفية إعادة ارتباط الذرات أو الأيونات ببعضها أثناء التفاعل:</p>
-                <ul>
-                    <li>اتحاد مباشر</li>
-                    <li>انحلال حراري</li>
-                    <li>إحلال بسيط</li>
-                    <li>إحلال مزدوج</li>
-                </ul>
-                
-                <h5 style="color:#facc15; margin: 10px 0;">تفاعلات الاتحاد المباشر:</h5>
-                <p>تفاعلات تتحد فيها مادتين أو أكثر لتكوين مركب جديد.</p>
-                
-                <p><b>عند تعريض كل مما يلي إلى لهب/بنزل:</b></p>
-                <p><b>1. المغنيسيوم (Mg) مصحوباً بالهواء:</b> يشتعل بسرعة ويحترق بلهب أبيض ساطع ويكون مسحوق مادة بيضاء اللون من أكسيد المغنيسيوم.</p>
-                <div class="equation-box">2Mg + O₂ --Δ--> 2MgO</div>
-                
-                <p><b>2. قطعة من الصوف الفولاذي (سلك تنظيف الألومنيوم) Fe:</b> تحترق مكونة شرراً وينتج أكسيد حديد مغناطيسي Fe₃O₄.</p>
-                <div class="equation-box">3Fe + 2O₂ --Δ--> Fe₃O₄</div>
-
-                <p><b>3. سلك من النحاس Cu:</b> لا يحترق بلهب مرئي ولكن تتكون على سطحه طبقة سوداء اللون من أكسيد النحاس CuO.</p>
-                <div class="equation-box">2Cu + O₂ --Δ--> 2CuO</div>
-
-                <p><b>تختلف درجة النشاط الكيميائي للفلزات:</b> Mg أنشط من Fe، وFe أنشط من Cu.</p>
-                <p><b>تعلات مهمة:</b> عند حرق شريط من المغنيسيوم يراعي اتخاذ نظارة واقية وتجنب إطالة النظر للمتوهج؛ لأن احتراق المغنيسيوم ينتج ضوءاً عالي الشدة مصحوباً بأشعة فوق بنفسجية قد تؤذي شبكية العين.</p>
-            </div>
-
-            <!-- الورقة الثانية -->
-            <div class="content-box">
-                <h4>3. تفاعلات الانحلال الحراري</h4>
-                <p><b>تفاعلات الانحلال الحراري:</b> هي عكس تفاعلات الاتحاد المباشر، وتعرف بـ [تفكك مركبات فيها بعض المركبات إلى مكوناتها البسيطة أو أبسط منها باستخدام طاقة حرارية أو ضوئية].</p>
-                <div class="equation-box">AB --طاقة--> A + B</div>
-                <p>تختلف نواتج تفاعلات الانحلال الحراري تبعاً لنوع المركب المستخدم في التفاعل.</p>
-
-                <h5 style="color:#facc15; margin: 10px 0;">مقارنة بين انحلال أكسيد الفلز وكربونات الفلز:</h5>
-                <p><b>أ) الانحلال الحراري لأكسيد الزئبق [HgO]:</b> ينحل بالحرارة إلى زئبق (Hg) فضي اللون ويتصاعد غاز الأكسجين (O₂) الذي يزيد توهج عود ثقاب مشتعل.</p>
-                <div class="equation-box">2HgO (أحمر) --Δ--> 2Hg (فضي) + O₂ ↑</div>
-
-                <p><b>ب) الانحلال الحراري لكربونات الكالسيوم [CaCO₃]:</b> تنحل بالحرارة إلى أكسيد الكالسيوم (CaO) ويتصاعد غاز ثاني أكسيد الكربون (CO₂) عديم اللون الذي يعكر ماء الجير الرائق عند إمراره عليه لفترة قصيرة.</p>
-                <div class="equation-box">CaCO₃ (صلب) --Δ--> CaO (صلب) + CO₂ ↑</div>
-
-                <p><b>ما المقصود بكل من:</b> الاتحاد المباشر - الانحلال الحراري؟</p>
-                <p><b>سؤال تطبيق:</b> ماذا يحدث كيميائياً عند تسخين كل من: شريط من المغنيسيوم في الهواء، وأكسيد الزئبق الأحمر؟</p>
-            </div>
-
-            <!-- الورقة الثالثة -->
-            <div class="content-box">
-                <h4>4. تفاعلات الانحلال الحراري لبعض المركبات</h4>
-                <p><b>1. هيدروكسيدات الفلزات:</b> تنحل معظم هيدروكسيدات الفلزات بالحرارة إلى أكسيد الفلز وبخار الماء.</p>
-                <p>مثال: انحلال هيدروكسيد النحاس الأزرق [Cu(OH)₂] إلى أكسيد النحاس الأسود وبخار ماء.</p>
-                <div class="equation-box">Cu(OH)₂ (أزرق) --Δ--> CuO (أسود) + H₂O ↑</div>
-
-                <p><b>2. كبريتات الفلزات:</b> تنحل معظم كبريتات الفلزات بالحرارة إلى أكسيد الفلز وثالث أكسيد الكبريت.</p>
-                <p>مثال: انحلال كبريتات النحاس الزرقاء [CuSO₄] بالحرارة إلى أكسيد النحاس الأسود وثالث أكسيد الكبريت.</p>
-                <div class="equation-box">CuSO₄ (أزرق) --Δ--> CuO (أسود) + SO₃ ↑</div>
-
-                <p><b>3. نترات الفلزات:</b> تنحل نترات الفلزات بالحرارة إلى نيتريت الفلز وغاز الأكسجين.</p>
-                <p>مثال: انحلال نترات الصوديوم البيضاء [NaNO₃] إلى نيتريت الصوديوم أبيض مصفر وتصاعد الأكسجين.</p>
-                <div class="equation-box">2NaNO₃ (أبيض) --Δ--> 2NaNO₂ (أبيض مصفر) + O₂ ↑</div>
-
-                <h5 style="color:#facc15; margin: 10px 0;">ملخص ألوان المركبات المهمة للحفظ:</h5>
-                <ul>
-                    <li>أكسيد الزئبق (HgO): أحمر 🔴</li>
-                    <li>الزئبق (Hg): فضي ⚪</li>
-                    <li>هيدروكسيد النحاس Cu(OH)₂: أزرق 🔵</li>
-                    <li>كبريتات النحاس CuSO₄: أزرق 🔵</li>
-                    <li>أكسيد النحاس CuO: أسود ⬛</li>
-                    <li>نترات الصوديوم NaNO₃: أبيض ⚪</li>
-                    <li>نيتريت الصوديوم NaNO₂: أبيض مصفر 🟡</li>
-                </ul>
-            </div>
-
-            <button class="btn-back" onclick="backToScienceMain()">الرجوع لواجهة العلوم</button>
-        </div>
-
-        <!-- 5. واجهة الاختبارات -->
-        <div id="quizSection" class="quiz-section">
-            <h3 style="color:#38bdf8; margin-bottom: 15px;">📝 اختبار تفاعلي في مادة العلوم</h3>
-            
-            <div class="quiz-item">
-                <p>1. عند تسخين أكسيد الزئبق الأحمر يتكون راسب فضي وتصاعد غاز:</p>
-
-                <button class="option-btn" onclick="checkAnswer(this, true)">الأكسجين (O₂)</button>
-                <button class="option-btn" onclick="checkAnswer(this, false)">النيتروجين (N₂)</button>
-                <button class="option-btn" onclick="checkAnswer(this, false)">ثاني أكسيد الكربون (CO₂)</button>
-            </div>
-
-            <div class="quiz-item">
-                <p>2. تنحل كربونات الكالسيوم بالحرارة إلى أكسيد الكالسيوم وغاز:</p>
-                <button class="option-btn" onclick="checkAnswer(this, false)">الهيدروجين</button>
-                <button class="option-btn" onclick="checkAnswer(this, true)">ثاني أكسيد الكربون (CO₂)</button>
-                <button class="option-btn" onclick="checkAnswer(this, false)">ثالث أكسيد الكبريت</button>
-            </div>
-
-            <div class="quiz-item">
-                <p>3. لون نيتريت الصوديوم الناتج من انحلال نترات الصوديوم بالحرارة هو:</p>
-                <button class="option-btn" onclick="checkAnswer(this, false)">أسود</button>
-                <button class="option-btn" onclick="checkAnswer(this, false)">أزرق</button>
-                <button class="option-btn" onclick="checkAnswer(this, true)">أبيض مصفر</button>
-            </div>
-
-            <div id="quizScore" style="margin-top: 10px; font-weight: bold; color: #38bdf8;"></div>
-            
-            <button class="btn-back" onclick="backToScienceMain()">الرجوع لواجهة العلوم</button>
-        </div>
-
-        <!-- 6. شاشة فارغة لباقي المواد -->
-        <div id="subjectSection" class="study-section">
-            <h3 id="subjectTitle">اسم المادة</h3>
-            <p style="color: #94a3b8; margin: 15px 0;">سيتم إضافة المذكرات والامتحانات الخاصة بهذه المادة قريباً.</p>
-            <button class="btn-back" onclick="backToDashboard()">الرجوع للمواد</button>
+        <!-- 4. صفحة المحتوى (ملخصات / حفظ / امتحانات) -->
+        <div id="contentPage" class="page">
+            <h2 class="title" id="contentTitle">المحتوى</h2>
+            <div id="dynamicContent"></div>
+            <button class="btn-back" onclick="navTo('subCategoryPage')">الرجوع للقائمة</button>
         </div>
 
     </div>
 
     <script>
-        // التحقق من كلمة المرور
+        let currentSubject = '';
+
+        // بيانات المواد والمحتوى
+        const data = {
+            science: {
+                title: "مادة العلوم 🔬",
+                summary: `
+                    <div class="content-box">
+                        <h4>📌 ملخص الدرس الأول: التفاعلات الكيميائية</h4>
+                        <p>التفاعل الكيميائي هو كسر الروابط في المواد المتفاعلة وتكوين روابط جديدة في المواد الناتجة.</p>
+                        <p><span class="highlight">أدلة التفاعل:</span> تغير اللون، تصاعد غاز، تكون راسب، وانبعاث حرارة أو ضوء.</p>
+                    </div>
+                    <div class="content-box">
+                        <h4>📌 ملخص الدرس الثاني: سرعة التفاعل الكيميائي</h4>
+                        <p>هي التغير في تركيز المواد المتفاعلة والناتجة في وحدة الزمن.</p>
+                        <p><span class="highlight">العوامل المؤثرة:</span> طبيعة المتفاعلات، التركيز، درجة الحرارة، والعوامل الحفازة.</p>
+                    </div>`,
+                memorize: `
+                    <div class="content-box">
+                        <h4>📖 حفظ المعالجات والروابط الكيميائية</h4>
+                        <p><b>احتراق المغنيسيوم:</b></p>
+                        <div class="equation-box">2Mg + O₂ --Δ--> 2MgO</div>
+                        <p><b>انحلال أكسيد الزئبق (أحمر 🔴 إلى فضي ⚪):</b></p>
+                        <div class="equation-box">2HgO --Δ--> 2Hg + O₂ ↑</div>
+                        <p><b>انحلال كربونات الكالسيوم (تعكر ماء الجير):</b></p>
+                        <div class="equation-box">CaCO₃ --Δ--> CaO + CO₂ ↑</div>
+                    </div>`,
+                quiz: `
+                    <div class="quiz-item">
+                        <p>1. عند تسخين أكسيد الزئبق الأحمر يتصاعد غاز:</p>
+                        <button class="option-btn" onclick="checkAnswer(this, true)">الأكسجين</button>
+                        <button class="option-btn" onclick="checkAnswer(this, false)">ثاني أكسيد الكربون</button>
+                    </div>
+                    <div class="quiz-item">
+                        <p>2. لون أكسيد النحاس الناتج من الانحلال الحراري هو:</p>
+                        <button class="option-btn" onclick="checkAnswer(this, false)">أزرق</button>
+                        <button class="option-btn" onclick="checkAnswer(this, true)">أسود</button>
+                    </div>`
+            },
+            arabic: {
+                title: "اللغة العربية 📚",
+                summary: `
+                    <div class="content-box">
+                        <h4>📌 ملخص النحو (النداء والبدل)</h4>
+                        <p><b>المنادى:</b> معرب (مضاف، شبيه بالمضاف، نكرة غير مقصودة) أو مبني (علم مفرد، نكرة مقصودة).</p>
+                        <p><b>البدل:</b> مطابق (كل من كل)، بعض من كل، واشتمال.</p>
+                    </div>`,
+                memorize: `
+                    <div class="content-box">
+                        <h4>📖 حفظ النص الأول: عباد الرحمن (سورة الفرقان)</h4>
+                        <p>﴿وَعِبَادُ الرَّحْمَنِ الَّذِينَ يَمْشُونَ عَلَى الْأَرْضِ هَوْنًا وَإِذَا خَاطَبَهُمُ الْجَاهِلُونَ قَالُوا سَلَامًا﴾</p>
+                        <br>
+                        <p><span class="highlight">مواطن الجمال:</span> "يمشون على الأرض هوناً" تعبير يدل على التواضع الدائم.</p>
+                    </div>`,
+                quiz: `
+                    <div class="quiz-item">
+                        <p>1. "يا طالباً العلمَ اجتهد" - نوع المنادى هنا:</p>
+                        <button class="option-btn" onclick="checkAnswer(this, true)">شبيه بالمضاف</button>
+                        <button class="option-btn" onclick="checkAnswer(this, false)">نكرة مقصودة</button>
+                    </div>`
+            },
+            math: {
+                title: "الرياضيات 📐",
+                summary: `
+                    <div class="content-box">
+                        <h4>📌 ملخص الجبر: حاصل الضرب الديكارتي</h4>
+                        <p>س × ص = {(أ ، ب) : أ ينتمي لـ س ، ب ينتمي لـ ص}</p>
+                        <p><b>الميل:</b> فرق الصادات على فرق السينات = (ص₂ - ص₁) / (س₂ - س₁)</p>
+                    </div>`,
+                memorize: `
+                    <div class="content-box">
+                        <h4>📖 حفظ قوانين حساب المثلثات والهندسة</h4>
+                        <ul>
+                            <li>جا هـ = المقابل / الوتر</li>
+                            <li>جتا هـ = المجاور / الوتر</li>
+                            <li>ظا هـ = المقابل / المجاور</li>
+                            <li>منتصف قطعة مستقيمة = [(س₁ + س₂)/٢ , (ص₁ + ص₂)/٢]</li>
+                        </ul>
+                    </div>`,
+                quiz: `
+                    <div class="quiz-item">
+                        <p>1. ظا 45° تساوي:</p>
+                        <button class="option-btn" onclick="checkAnswer(this, true)">1</button>
+                        <button class="option-btn" onclick="checkAnswer(this, false)">0.5</button>
+                    </div>`
+            },
+            social: {
+                title: "الدراسات الاجتماعية 🗺️",
+                summary: `
+                    <div class="content-box">
+                        <h4>📌 ملخص الجغرافيا: قارات العالم</h4>
+                        <p><b>أكبر القارات مساحة:</b> آسيا، يليها أفريقيا.</p>
+                        <p><b>أعلى قمة جبلية:</b> قمة إفرست في جبال الهيمالايا.</p>
+                    </div>`,
+                memorize: `
+                    <div class="content-box">
+                        <h4>📖 حفظ التاريخ: الحملة الفرنسية وخلفاء محمد علي</h4>
+                        <p><b>أسباب ثورة القاهرة الأولى:</b> فرض الضرائب والتفتيش عن الأموال.</p>
+                        <p><b>موقعة أبي قير البحرية (1798):</b> تحطيم أسطول فرنسا على يد نيلسون.</p>
+                    </div>`,
+                quiz: `
+                    <div class="quiz-item">
+                        <p>1. قاد أسطول الإنجليز في معركة أبي قير البحرية القائد:</p>
+                        <button class="option-btn" onclick="checkAnswer(this, true)">نيلسون</button>
+                        <button class="option-btn" onclick="checkAnswer(this, false)">كليبر</button>
+                    </div>`
+            }
+        };
+
+        // الدخول بكلمة المرور
         function checkPassword() {
             const input = document.getElementById('passInput').value;
-            const errorMsg = document.getElementById('errorMsg');
-
-            if (input === "MID TEAM") {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('dashboardSection').style.display = 'block';
+            if (input === "KUPI") {
+                navTo('mainDashboard');
             } else {
-                errorMsg.style.display = 'block';
+                document.getElementById('errorMsg').style.display = 'block';
             }
         }
 
-        // التنقل بين الصفحات والواجهات
-        function openScienceMain() {
-            document.getElementById('dashboardSection').style.display = 'none';
-            document.getElementById('scienceMainSection').style.display = 'block';
+        // التنقل بين الشاشات
+        function navTo(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
         }
 
-        function openStudySection() {
-            document.getElementById('scienceMainSection').style.display = 'none';
-            document.getElementById('studySection').style.display = 'block';
+        function openSubjectMenu(subjectKey) {
+            currentSubject = subjectKey;
+            document.getElementById('currentSubjectTitle').innerText = data[subjectKey].title;
+            navTo('subCategoryPage');
         }
 
-        function openQuizSection() {
-            document.getElementById('scienceMainSection').style.display = 'none';
-            document.getElementById('quizSection').style.display = 'block';
-        }
-
-        function openSubject(name) {
-            document.getElementById('dashboardSection').style.display = 'none';
-            document.getElementById('subjectSection').style.display = 'block';
-            document.getElementById('subjectTitle').innerText = name;
-        }
-
-        function backToDashboard() {
-            document.getElementById('scienceMainSection').style.display = 'none';
-            document.getElementById('subjectSection').style.display = 'none';
-            document.getElementById('dashboardSection').style.display = 'block';
-        }
-
-        function backToScienceMain() {
-            document.getElementById('studySection').style.display = 'none';
-            document.getElementById('quizSection').style.display = 'none';
-            document.getElementById('scienceMainSection').style.display = 'block';
-        }
-
-        // تصحيح أسئلة الاختبار
-        function checkAnswer(btn, isCorrect) {
-            const parent = btn.parentElement;
-            const buttons = parent.querySelectorAll('.option-btn');
+        function showSection(type) {
+            const subjectData = data[currentSubject];
+            const titles = { summary: 'الملخصات 📝', memorize: 'مذكرات الحفظ 📖', quiz: 'الاختبارات التفاعلية ✍️' };
             
-            buttons.forEach(b => {
-                b.style.background = '#1e293b';
-                b.disabled = true;
-            });
+            document.getElementById('contentTitle').innerText = subjectData.title + " - " + titles[type];
+            document.getElementById('dynamicContent').innerHTML = subjectData[type];
+            navTo('contentPage');
+        }
 
-            if (isCorrect) {
-                btn.style.background = '#22c55e';
-            } else {
-                btn.style.background = '#ef4444';
-            }
+        // تصحيح الأجوبة
+        function checkAnswer(btn, isCorrect) {
+            const buttons = btn.parentElement.querySelectorAll('.option-btn');
+            buttons.forEach(b => b.disabled = true);
+            btn.style.background = isCorrect ? '#22c55e' : '#ef4444';
         }
     </script>
 </body>
